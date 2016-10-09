@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Model viewer</string>
+    <string name="text_left">Left</string>
+    <string name="text_right">Right</string>
+    <string name="text_up">Up</string>
+    <string name="text_down">Down</string>
+    <string name="text_scale_plus">Scale +</string>
+    <string name="text_scale_minus">Scale -</string>
+    <string name="text_x_rotation_plus">X-Rotation +</string>
+    <string name="text_x_rotation_minus">X-Rotation -</string>
+    <string name="text_y_rotation_plus">Y-Rotation +</string>
+    <string name="text_y_rotation_minus">Y-Rotation -</string>
+    <string name="text_z_rotation_plus">Z-Rotation +</string>
+    <string name="text_z_rotation_minus">Z-Rotation -</string>
+</resources>
