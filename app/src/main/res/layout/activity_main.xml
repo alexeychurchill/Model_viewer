@@ -21,6 +21,12 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@string/text_open_model"
+                style="?android:attr/buttonBarButtonStyle"
+                android:onClick="btnOpenModelOnClick"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="@string/text_left"
                 style="?android:attr/buttonBarButtonStyle"
                 android:onClick="btnLeftOnClick"/>

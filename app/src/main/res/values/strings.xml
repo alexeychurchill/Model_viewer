@@ -12,4 +12,5 @@
     <string name="text_y_rotation_minus">Y-Rotation -</string>
     <string name="text_z_rotation_plus">Z-Rotation +</string>
     <string name="text_z_rotation_minus">Z-Rotation -</string>
+    <string name="text_open_model">Open model</string>
 </resources>

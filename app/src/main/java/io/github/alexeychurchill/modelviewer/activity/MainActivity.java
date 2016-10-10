@@ -32,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Buttons handlers
+    public void btnOpenModelOnClick(View view) {
+    }
+
     public void btnLeftOnClick(View view) {
         mModel.move(-mMoveDelta, 0.0, 0.0);
         mViewport.invalidate();

@@ -1,5 +1,7 @@
 package io.github.alexeychurchill.modelviewer.graphics.shapes;
 
+import android.util.Log;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -112,29 +114,51 @@ public class Model3d {
             InputStream inputStream = new FileInputStream(file);
             Scanner scanner = new Scanner(inputStream);
             List<Vertex> vertices = new LinkedList<>();
-            List<Integer> faces = new LinkedList<>();
+            List<List<Integer>> faces = new LinkedList<>();
             while (scanner.hasNextLine()) {
-                String toBeParsed = scanner.toString();
+                String toBeParsed = scanner.nextLine();
+                String[] tokens = toBeParsed.split(" ");
                 //Vertex
-                Pattern vertexPattern = Pattern.compile("v (-?[0-9]+.?[0-9]*) (-?[0-9]+.?[0-9]*) (-?[0-9]+.?[0-9]*)");
-                if (vertexPattern.matcher(toBeParsed).matches()) {
-                    MatchResult vertexMatchResult = vertexPattern.matcher(toBeParsed).toMatchResult();
-                    if (vertexMatchResult.groupCount() != 3) {
-                        return false;
-                    }
-                    double x, y, z;
-                    x = Double.parseDouble(vertexMatchResult.group(0));
-                    y = Double.parseDouble(vertexMatchResult.group(1));
-                    z = Double.parseDouble(vertexMatchResult.group(2));
-                    vertices.add(new Vertex(x, y, z));
+                if (tokens[0].contentEquals("v")) {
+                    Vertex parsedVertex = parseVertex(tokens);
+                    vertices.add(parsedVertex);
                 }
                 //Face
-                //TODO: Parse faces
+                if (tokens[0].contentEquals("f")) {
+                    List<Integer> parsedFace = parseFace(tokens);
+                    faces.add(parsedFace);
+                }
             }
+            for (Vertex vtx : vertices) {
+                Log.d("zzz", "VERTEX: " + vtx.getX() + " " + vtx.getY() + " " + vtx.getZ());
+            }
+//            this.vertices.clear();
+//            this.vertices.addAll(vertices);
+//            this.faces.clear();
+//            this.faces.addAll(faces);
         } catch (FileNotFoundException e) {
             return false;
         }
         return true;
+    }
+
+    private List<Integer> parseFace(String[] tokens) {
+        List<Integer> face = new LinkedList<>();
+        for (String faceVertexPoint : tokens) {
+            face.add(parseFaceVertex(faceVertexPoint));
+        }
+        return face;
+    }
+
+    private Integer parseFaceVertex(String faceVertexPoint) {
+        return Integer.parseInt(faceVertexPoint.split(" ")[0]);
+    }
+
+    private Vertex parseVertex(String[] tokens) {
+        double x = Double.parseDouble(tokens[1]);
+        double y = Double.parseDouble(tokens[2]);
+        double z = Double.parseDouble(tokens[3]);
+        return new Vertex(x, y, z);
     }
 
     private Vertex transform(Vertex vertex) {
