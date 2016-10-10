@@ -129,13 +129,20 @@ public class Model3d {
                     faces.add(parsedFace);
                 }
             }
-            for (Vertex vtx : vertices) {
-                Log.d("zzz", "VERTEX: " + vtx.getX() + " " + vtx.getY() + " " + vtx.getZ());
-            }
-//            this.vertices.clear();
-//            this.vertices.addAll(vertices);
-//            this.faces.clear();
-//            this.faces.addAll(faces);
+//            for (Vertex vtx : vertices) {
+//                Log.d("zzz", "VERTEX: " + vtx.getX() + " " + vtx.getY() + " " + vtx.getZ());
+//            }
+//            for (List<Integer> face : faces) {
+//                String faceStr = "";
+//                for (Integer vtxNumber : face) {
+//                    faceStr += vtxNumber + ";";
+//                }
+//                Log.d("zzz", "FACE: " + faceStr);
+//            }
+            this.vertices.clear(); //Vertices
+            this.vertices.addAll(vertices);
+            this.faces.clear(); //Faces
+            this.faces.addAll(faces);
         } catch (FileNotFoundException e) {
             return false;
         }
@@ -145,13 +152,15 @@ public class Model3d {
     private List<Integer> parseFace(String[] tokens) {
         List<Integer> face = new LinkedList<>();
         for (String faceVertexPoint : tokens) {
-            face.add(parseFaceVertex(faceVertexPoint));
+            if (!faceVertexPoint.contentEquals("f")) {
+                face.add(parseFaceVertex(faceVertexPoint));
+            }
         }
         return face;
     }
 
     private Integer parseFaceVertex(String faceVertexPoint) {
-        return Integer.parseInt(faceVertexPoint.split(" ")[0]);
+        return Integer.parseInt(faceVertexPoint.split("/")[0]) - 1;
     }
 
     private Vertex parseVertex(String[] tokens) {

@@ -1,17 +1,22 @@
 package io.github.alexeychurchill.modelviewer.activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
+import java.io.File;
 import java.util.Arrays;
 
 import io.github.alexeychurchill.modelviewer.R;
+import io.github.alexeychurchill.modelviewer.filebrowser.OpenFileActivity;
 import io.github.alexeychurchill.modelviewer.view.View3D;
 import io.github.alexeychurchill.modelviewer.graphics.shapes.Model3d;
 import io.github.alexeychurchill.modelviewer.graphics.shapes.Vertex;
 
 public class MainActivity extends AppCompatActivity {
+    private static final int RQ_CALL_OPEN_FILE = 1;
     private double mMoveDelta = 0.5;
     private double mRotateDelta = 5.0;
     private double mScaleDelta = 0.125;
@@ -25,14 +30,49 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mViewport = ((View3D) findViewById(R.id.v3dView));
         //Build demo model
-        buildModel();
+//        buildModel();
         //...
-        mViewport.setModel(mModel);
-        mViewport.invalidate();
+        if (mViewport != null) {
+            mViewport.setModel(mModel);
+//            mViewport.invalidate();
+        }
     }
 
     //Buttons handlers
     public void btnOpenModelOnClick(View view) {
+        callOpenFile();
+    }
+
+    private void callOpenFile() {
+        Intent openFileIntent = new Intent(this, OpenFileActivity.class);
+        startActivityForResult(openFileIntent, RQ_CALL_OPEN_FILE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == RQ_CALL_OPEN_FILE) {
+                if (data == null) {
+                    return;
+                }
+                String filename = data.getStringExtra(OpenFileActivity.EXTRA_FILENAME);
+                openFile(filename);
+                return;
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void openFile(String filename) {
+        if (filename == null) {
+            return;
+        }
+        mModel.loadFromFile(new File(filename));
+        Toast.makeText(this,
+                "Vertices: " + mModel.getVertices().size() + " Faces: " + mModel.getFaces().size(),
+                Toast.LENGTH_SHORT)
+                .show();
+        mViewport.invalidate();
     }
 
     public void btnLeftOnClick(View view) {
