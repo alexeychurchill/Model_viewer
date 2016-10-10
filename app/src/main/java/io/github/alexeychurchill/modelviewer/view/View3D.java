@@ -1,4 +1,4 @@
-package io.github.alexeychurchill.modelviewer;
+package io.github.alexeychurchill.modelviewer.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -10,9 +10,8 @@ import android.view.View;
 
 import java.util.List;
 
-import io.github.alexeychurchill.modelviewer.graphics.Model3d;
-import io.github.alexeychurchill.modelviewer.graphics.Point;
-import io.github.alexeychurchill.modelviewer.graphics.Polygon2d;
+import io.github.alexeychurchill.modelviewer.graphics.shapes.Model3d;
+import io.github.alexeychurchill.modelviewer.graphics.shapes.Polygon2d;
 import io.github.alexeychurchill.modelviewer.graphics.Projector;
 import io.github.alexeychurchill.modelviewer.graphics.ScreenConverter;
 

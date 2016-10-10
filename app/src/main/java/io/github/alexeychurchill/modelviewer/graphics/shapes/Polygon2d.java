@@ -1,4 +1,4 @@
-package io.github.alexeychurchill.modelviewer.graphics;
+package io.github.alexeychurchill.modelviewer.graphics.shapes;
 
 import java.util.LinkedList;
 import java.util.List;

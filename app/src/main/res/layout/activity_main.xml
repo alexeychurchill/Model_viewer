@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/activity_padding">
-    <io.github.alexeychurchill.modelviewer.View3D
+    <io.github.alexeychurchill.modelviewer.view.View3D
         android:id="@+id/v3dView"
         android:layout_width="match_parent"
         android:layout_height="0dp"

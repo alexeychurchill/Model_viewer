@@ -1,7 +1,16 @@
-package io.github.alexeychurchill.modelviewer.graphics;
+package io.github.alexeychurchill.modelviewer.graphics.shapes;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Scanner;
+import java.util.regex.MatchResult;
+import java.util.regex.Pattern;
+
+import io.github.alexeychurchill.modelviewer.graphics.MatrixUtils;
 
 /**
  * 3D model class
@@ -89,6 +98,43 @@ public class Model3d {
                 {0.0, 0.0, 0.0, 1.0}
         };
         transforms = MatrixUtils.multiply(rotateZTransform, transforms);
+    }
+
+    public void resetTransforms() {
+        transforms = MatrixUtils.getIdentityMatrix(4);
+    }
+
+    public boolean loadFromFile(File file) {
+        if (file == null) {
+            return false;
+        }
+        try {
+            InputStream inputStream = new FileInputStream(file);
+            Scanner scanner = new Scanner(inputStream);
+            List<Vertex> vertices = new LinkedList<>();
+            List<Integer> faces = new LinkedList<>();
+            while (scanner.hasNextLine()) {
+                String toBeParsed = scanner.toString();
+                //Vertex
+                Pattern vertexPattern = Pattern.compile("v (-?[0-9]+.?[0-9]*) (-?[0-9]+.?[0-9]*) (-?[0-9]+.?[0-9]*)");
+                if (vertexPattern.matcher(toBeParsed).matches()) {
+                    MatchResult vertexMatchResult = vertexPattern.matcher(toBeParsed).toMatchResult();
+                    if (vertexMatchResult.groupCount() != 3) {
+                        return false;
+                    }
+                    double x, y, z;
+                    x = Double.parseDouble(vertexMatchResult.group(0));
+                    y = Double.parseDouble(vertexMatchResult.group(1));
+                    z = Double.parseDouble(vertexMatchResult.group(2));
+                    vertices.add(new Vertex(x, y, z));
+                }
+                //Face
+                //TODO: Parse faces
+            }
+        } catch (FileNotFoundException e) {
+            return false;
+        }
+        return true;
     }
 
     private Vertex transform(Vertex vertex) {

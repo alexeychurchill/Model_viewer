@@ -3,6 +3,12 @@ package io.github.alexeychurchill.modelviewer.graphics;
 import java.util.LinkedList;
 import java.util.List;
 
+import io.github.alexeychurchill.modelviewer.graphics.shapes.Model3d;
+import io.github.alexeychurchill.modelviewer.graphics.shapes.Point;
+import io.github.alexeychurchill.modelviewer.graphics.shapes.Polygon2d;
+import io.github.alexeychurchill.modelviewer.graphics.shapes.Polygon3d;
+import io.github.alexeychurchill.modelviewer.graphics.shapes.Vertex;
+
 /**
  * Projector class
  * Projects 3d points to 2d points, 3d polys to 2d polys

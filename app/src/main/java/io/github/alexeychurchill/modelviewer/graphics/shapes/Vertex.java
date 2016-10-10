@@ -1,4 +1,4 @@
-package io.github.alexeychurchill.modelviewer.graphics;
+package io.github.alexeychurchill.modelviewer.graphics.shapes;
 
 /**
  * 3D Point class

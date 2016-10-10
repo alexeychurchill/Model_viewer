@@ -7,91 +7,93 @@ import android.view.View;
 import java.util.Arrays;
 
 import io.github.alexeychurchill.modelviewer.R;
-import io.github.alexeychurchill.modelviewer.View3D;
-import io.github.alexeychurchill.modelviewer.graphics.Model3d;
-import io.github.alexeychurchill.modelviewer.graphics.Vertex;
+import io.github.alexeychurchill.modelviewer.view.View3D;
+import io.github.alexeychurchill.modelviewer.graphics.shapes.Model3d;
+import io.github.alexeychurchill.modelviewer.graphics.shapes.Vertex;
 
 public class MainActivity extends AppCompatActivity {
-    private double moveDelta = 0.25;
-    private double rotateDelta = 5.0;
-    private double scaleDelta = 0.25;
-    private Model3d mCube = new Model3d();
-    private View3D mView3D;
+    private double mMoveDelta = 0.5;
+    private double mRotateDelta = 5.0;
+    private double mScaleDelta = 0.125;
+
+    private Model3d mModel = new Model3d();
+    private View3D mViewport;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mView3D = ((View3D) findViewById(R.id.v3dView));
-        //Build model
+        mViewport = ((View3D) findViewById(R.id.v3dView));
+        //Build demo model
         buildModel();
-        mView3D.setModel(mCube);
-        mView3D.invalidate();
+        //...
+        mViewport.setModel(mModel);
+        mViewport.invalidate();
     }
 
     //Buttons handlers
     public void btnLeftOnClick(View view) {
-        mCube.move(-moveDelta, 0.0, 0.0);
-        mView3D.invalidate();
+        mModel.move(-mMoveDelta, 0.0, 0.0);
+        mViewport.invalidate();
     }
 
     public void btnRightOnClick(View view) {
-        mCube.move(moveDelta, 0.0, 0.0);
-        mView3D.invalidate();
+        mModel.move(mMoveDelta, 0.0, 0.0);
+        mViewport.invalidate();
     }
 
     public void btnUpOnClick(View view) {
-        mCube.move(0.0, moveDelta, 0.0);
-        mView3D.invalidate();
+        mModel.move(0.0, mMoveDelta, 0.0);
+        mViewport.invalidate();
     }
 
     public void btnDownOnClick(View view) {
-        mCube.move(0.0, -moveDelta, 0.0);
-        mView3D.invalidate();
+        mModel.move(0.0, -mMoveDelta, 0.0);
+        mViewport.invalidate();
     }
 
     public void btnScalePlusOnClick(View view) {
-        mCube.scale(1.0 + scaleDelta);
-        mView3D.invalidate();
+        mModel.scale(1.0 + mScaleDelta);
+        mViewport.invalidate();
     }
 
     public void btnScaleMinusOnClick(View view) {
-        mCube.scale(1.0 - scaleDelta);
-        mView3D.invalidate();
+        mModel.scale(1.0 - mScaleDelta);
+        mViewport.invalidate();
     }
 
     public void btnXRotationPlusOnClick(View view) {
-        mCube.rotateByX(rotateDelta);
-        mView3D.invalidate();
+        mModel.rotateByX(mRotateDelta);
+        mViewport.invalidate();
     }
 
     public void btnXRotationMinusOnClick(View view) {
-        mCube.rotateByX(-rotateDelta);
-        mView3D.invalidate();
+        mModel.rotateByX(-mRotateDelta);
+        mViewport.invalidate();
     }
 
     public void btnYRotationPlusOnClick(View view) {
-        mCube.rotateByY(rotateDelta);
-        mView3D.invalidate();
+        mModel.rotateByY(mRotateDelta);
+        mViewport.invalidate();
     }
 
     public void btnYRotationMinusOnClick(View view) {
-        mCube.rotateByY(-rotateDelta);
-        mView3D.invalidate();
+        mModel.rotateByY(-mRotateDelta);
+        mViewport.invalidate();
     }
 
     public void btnZRotationPlusOnClick(View view) {
-        mCube.rotateByZ(rotateDelta);
-        mView3D.invalidate();
+        mModel.rotateByZ(mRotateDelta);
+        mViewport.invalidate();
     }
 
     public void btnZRotationMinusOnClick(View view) {
-        mCube.rotateByZ(-rotateDelta);
-        mView3D.invalidate();
+        mModel.rotateByZ(-mRotateDelta);
+        mViewport.invalidate();
     }
 
     private void buildModel() {
-        mCube.getVertices().addAll(
+        mModel.getVertices().addAll(
                 Arrays.asList(new Vertex(1.0, 1.0, -1.0),
                         new Vertex(-1.0, 1.0, -1.0),
                         new Vertex(-1.0, -1.0, -1.0),
@@ -101,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
                         new Vertex(-1.0, -1.0, 1.0),
                         new Vertex(1.0, -1.0, 1.0))
         );
-        mCube.getFaces().addAll(
+        mModel.getFaces().addAll(
                 Arrays.asList(
                         Arrays.asList(0, 1, 2, 3), //Front/rear
                         Arrays.asList(4, 5, 6, 7),
