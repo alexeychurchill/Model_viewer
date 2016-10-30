@@ -16,4 +16,7 @@
     <string name="text_z_rotation_minus">Z-Rotation -</string>
     <string name="text_open_model">Open model</string>
     <string name="text_reset_transforms">Reset transforms</string>
+    <string name="text_enable_back_face_culling">Back-face culling</string>
+    <string name="text_help_mode">Help mode</string>
+    <string name="menu_text_settings">Settings</string>
 </resources>

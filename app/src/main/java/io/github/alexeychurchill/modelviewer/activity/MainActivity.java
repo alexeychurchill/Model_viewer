@@ -1,9 +1,14 @@
 package io.github.alexeychurchill.modelviewer.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -25,6 +30,10 @@ public class MainActivity extends AppCompatActivity {
     private Model3d mModel = new Model3d();
     private View3D mViewport;
 
+    private boolean bfcEnabled = false; //Back-face culling
+    private boolean hmEnabled = false; //Help mode
+
+    //Lifecycle
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,20 +44,28 @@ public class MainActivity extends AppCompatActivity {
         //...
         if (mViewport != null) {
             mViewport.setModel(mModel);
-            updateView();
+            //updateView();
         }
     }
 
-    //Buttons handlers
-    public void btnOpenModelOnClick(View view) {
-        callOpenFile();
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        bfcEnabled = sp.getBoolean(AppPrefsActivity.PREF_BFC_ENABLED, bfcEnabled);
+        hmEnabled = sp.getBoolean(AppPrefsActivity.PREF_HM_ENABLED, hmEnabled);
+        updateView();
     }
 
-    private void callOpenFile() {
-        Intent openFileIntent = new Intent(this, OpenFileActivity.class);
-        startActivityForResult(openFileIntent, RQ_CALL_OPEN_FILE);
+    //Menu routine
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuItem miSettings = menu.add(0, 1, 0, R.string.menu_text_settings);
+        miSettings.setIntent(new Intent(this, AppPrefsActivity.class));
+        return true;
     }
 
+    //Other activities result handler
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
@@ -62,6 +79,16 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    //Buttons handlers
+    public void btnOpenModelOnClick(View view) {
+        callOpenFile();
+    }
+
+    private void callOpenFile() {
+        Intent openFileIntent = new Intent(this, OpenFileActivity.class);
+        startActivityForResult(openFileIntent, RQ_CALL_OPEN_FILE);
     }
 
     private void openFile(String filename) {
@@ -156,6 +183,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         //TODO: Add showing of visible/total faces
+        //TODO: On/off BFC
         mViewport.invalidate();
     }
 
