@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         //...
         if (mViewport != null) {
             mViewport.setModel(mModel);
-            mViewport.invalidate();
+            updateView();
         }
     }
 
@@ -73,81 +73,89 @@ public class MainActivity extends AppCompatActivity {
                 "Vertices: " + mModel.getVertices().size() + " Faces: " + mModel.getFaces().size(),
                 Toast.LENGTH_SHORT)
                 .show();
-        mViewport.invalidate();
+        updateView();
     }
 
     public void btnLeftOnClick(View view) {
         mModel.move(-mMoveDelta, 0.0, 0.0);
-        mViewport.invalidate();
+        updateView();
     }
 
     public void btnRightOnClick(View view) {
         mModel.move(mMoveDelta, 0.0, 0.0);
-        mViewport.invalidate();
+        updateView();
     }
 
     public void btnUpOnClick(View view) {
         mModel.move(0.0, mMoveDelta, 0.0);
-        mViewport.invalidate();
+        updateView();
     }
 
     public void btnDownOnClick(View view) {
         mModel.move(0.0, -mMoveDelta, 0.0);
-        mViewport.invalidate();
+        updateView();
     }
 
     public void btnFarOnClick(View view) {
         mModel.move(0.0, 0.0, mMoveDelta * 4);
-        mViewport.invalidate();
+        updateView();
     }
 
     public void btnNearOnClick(View view) {
         mModel.move(0.0, 0.0, -mMoveDelta * 4);
-        mViewport.invalidate();
+        updateView();
     }
 
     public void btnScalePlusOnClick(View view) {
         mModel.scale(1.0 + mScaleDelta);
-        mViewport.invalidate();
+        updateView();
     }
 
     public void btnScaleMinusOnClick(View view) {
         mModel.scale(1.0 - mScaleDelta);
-        mViewport.invalidate();
+        updateView();
     }
 
     public void btnXRotationPlusOnClick(View view) {
         mModel.rotateByX(mRotateDelta);
-        mViewport.invalidate();
+        updateView();
     }
 
     public void btnXRotationMinusOnClick(View view) {
         mModel.rotateByX(-mRotateDelta);
-        mViewport.invalidate();
+        updateView();
     }
 
     public void btnYRotationPlusOnClick(View view) {
         mModel.rotateByY(mRotateDelta);
-        mViewport.invalidate();
+        updateView();
     }
 
     public void btnYRotationMinusOnClick(View view) {
         mModel.rotateByY(-mRotateDelta);
-        mViewport.invalidate();
+        updateView();
     }
 
     public void btnZRotationPlusOnClick(View view) {
         mModel.rotateByZ(mRotateDelta);
-        mViewport.invalidate();
+        updateView();
     }
 
     public void btnZRotationMinusOnClick(View view) {
         mModel.rotateByZ(-mRotateDelta);
-        mViewport.invalidate();
+        updateView();
     }
 
     public void btnResetTransformsOnClick(View view) {
         mModel.resetTransforms();
+        updateView();
+    }
+
+    private void updateView() {
+        if (mViewport == null) {
+            return;
+        }
+        //TODO: Add showing of visible/total faces
         mViewport.invalidate();
     }
 
