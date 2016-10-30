@@ -1,6 +1,7 @@
 package io.github.alexeychurchill.modelviewer.view;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
