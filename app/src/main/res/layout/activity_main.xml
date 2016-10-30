@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -48,7 +47,18 @@
                 android:text="@string/text_down"
                 style="?android:attr/buttonBarButtonStyle"
                 android:onClick="btnDownOnClick"/>
-
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_far"
+                style="?android:attr/buttonBarButtonStyle"
+                android:onClick="btnFarOnClick"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_near"
+                style="?android:attr/buttonBarButtonStyle"
+                android:onClick="btnNearOnClick"/>
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -61,7 +71,12 @@
                 android:text="@string/text_scale_minus"
                 style="?android:attr/buttonBarButtonStyle"
                 android:onClick="btnScaleMinusOnClick"/>
-
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_reset_transforms"
+                style="?android:attr/buttonBarButtonStyle"
+                android:onClick="btnResetTransformsOnClick"/>
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

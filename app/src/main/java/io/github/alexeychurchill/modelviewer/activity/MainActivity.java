@@ -96,6 +96,16 @@ public class MainActivity extends AppCompatActivity {
         mViewport.invalidate();
     }
 
+    public void btnFarOnClick(View view) {
+        mModel.move(0.0, 0.0, mMoveDelta * 4);
+        mViewport.invalidate();
+    }
+
+    public void btnNearOnClick(View view) {
+        mModel.move(0.0, 0.0, -mMoveDelta * 4);
+        mViewport.invalidate();
+    }
+
     public void btnScalePlusOnClick(View view) {
         mModel.scale(1.0 + mScaleDelta);
         mViewport.invalidate();
@@ -133,6 +143,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void btnZRotationMinusOnClick(View view) {
         mModel.rotateByZ(-mRotateDelta);
+        mViewport.invalidate();
+    }
+
+    public void btnResetTransformsOnClick(View view) {
+        mModel.resetTransforms();
         mViewport.invalidate();
     }
 

@@ -4,6 +4,8 @@
     <string name="text_right">Right</string>
     <string name="text_up">Up</string>
     <string name="text_down">Down</string>
+    <string name="text_far">Far</string>
+    <string name="text_near">Near</string>
     <string name="text_scale_plus">Scale +</string>
     <string name="text_scale_minus">Scale -</string>
     <string name="text_x_rotation_plus">X-Rotation +</string>
@@ -13,4 +15,5 @@
     <string name="text_z_rotation_plus">Z-Rotation +</string>
     <string name="text_z_rotation_minus">Z-Rotation -</string>
     <string name="text_open_model">Open model</string>
+    <string name="text_reset_transforms">Reset transforms</string>
 </resources>
