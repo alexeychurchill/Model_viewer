@@ -5,7 +5,11 @@ import android.util.Log;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
@@ -116,7 +120,7 @@ public class Model3d {
             List<Vertex> vertices = new LinkedList<>();
             List<List<Integer>> faces = new LinkedList<>();
             while (scanner.hasNextLine()) {
-                String toBeParsed = scanner.nextLine();
+                String toBeParsed = scanner.nextLine().replaceAll(" +", " ");
                 String[] tokens = toBeParsed.split(" ");
                 //Vertex
                 if (tokens[0].contentEquals("v")) {
@@ -129,16 +133,6 @@ public class Model3d {
                     faces.add(parsedFace);
                 }
             }
-//            for (Vertex vtx : vertices) {
-//                Log.d("zzz", "VERTEX: " + vtx.getX() + " " + vtx.getY() + " " + vtx.getZ());
-//            }
-//            for (List<Integer> face : faces) {
-//                String faceStr = "";
-//                for (Integer vtxNumber : face) {
-//                    faceStr += vtxNumber + ";";
-//                }
-//                Log.d("zzz", "FACE: " + faceStr);
-//            }
             this.vertices.clear(); //Vertices
             this.vertices.addAll(vertices);
             this.faces.clear(); //Faces

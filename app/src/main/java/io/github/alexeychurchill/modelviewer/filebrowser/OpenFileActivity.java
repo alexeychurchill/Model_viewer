@@ -1,8 +1,13 @@
 package io.github.alexeychurchill.modelviewer.filebrowser;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.Environment;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.os.EnvironmentCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -37,7 +42,8 @@ public class OpenFileActivity extends AppCompatActivity implements ListView.OnIt
     }
 
     private void initFile() {
-        File rootFile = new File(ROOT_DIR);
+        Log.d("zzz", String.valueOf(Environment.getExternalStorageDirectory()) + " -> " + Environment.getExternalStorageState());
+        File rootFile = new File(Environment.getExternalStorageDirectory().getPath());
         mCurrentDir = rootFile;
         mFileList.add(null);
         mFileList.addAll(Arrays.asList(rootFile.listFiles()));
@@ -48,7 +54,7 @@ public class OpenFileActivity extends AppCompatActivity implements ListView.OnIt
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         File file = mFileList.get(position);
         if (file == null) { //up
-            if (mCurrentDir.getPath().contentEquals(ROOT_DIR)) {
+            if (mCurrentDir.getPath().contentEquals(Environment.getExternalStorageDirectory().getPath())) {
                 return;
             }
             File parentFile = mCurrentDir.getParentFile();

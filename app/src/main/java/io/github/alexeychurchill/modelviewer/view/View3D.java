@@ -10,9 +10,9 @@ import android.view.View;
 
 import java.util.List;
 
+import io.github.alexeychurchill.modelviewer.graphics.Renderer;
 import io.github.alexeychurchill.modelviewer.graphics.shapes.Model3d;
 import io.github.alexeychurchill.modelviewer.graphics.shapes.Polygon2d;
-import io.github.alexeychurchill.modelviewer.graphics.Projector;
 import io.github.alexeychurchill.modelviewer.graphics.ScreenConverter;
 
 /**
@@ -22,7 +22,7 @@ import io.github.alexeychurchill.modelviewer.graphics.ScreenConverter;
 public class View3D extends View {
     private Paint mPaint = new Paint();
     private ScreenConverter mConverter = new ScreenConverter();
-    private Projector projector = new Projector();
+    private Renderer projector = new Renderer();
     private Model3d model;
 
     public View3D(Context context) {
@@ -41,11 +41,11 @@ public class View3D extends View {
         mPaint.setColor(Color.BLACK);
     }
 
-    public Projector getProjector() {
+    public Renderer getProjector() {
         return projector;
     }
 
-    public void setProjector(Projector projector) {
+    public void setProjector(Renderer projector) {
         this.projector = projector;
     }
 
@@ -107,6 +107,7 @@ public class View3D extends View {
 
         polygonPath.close();
 
+        mPaint.setColor(Color.BLUE);
         mPaint.setStyle(Paint.Style.STROKE);
         destinationCanvas.drawPath(polygonPath, mPaint);
     }

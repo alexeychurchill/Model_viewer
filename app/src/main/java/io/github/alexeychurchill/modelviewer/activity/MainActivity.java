@@ -3,6 +3,7 @@ package io.github.alexeychurchill.modelviewer.activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -30,11 +31,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mViewport = ((View3D) findViewById(R.id.v3dView));
         //Build demo model
-//        buildModel();
+        buildModel();
         //...
         if (mViewport != null) {
             mViewport.setModel(mModel);
-//            mViewport.invalidate();
+            mViewport.invalidate();
         }
     }
 
@@ -137,23 +138,23 @@ public class MainActivity extends AppCompatActivity {
 
     private void buildModel() {
         mModel.getVertices().addAll(
-                Arrays.asList(new Vertex(1.0, 1.0, -1.0),
-                        new Vertex(-1.0, 1.0, -1.0),
-                        new Vertex(-1.0, -1.0, -1.0),
-                        new Vertex(1.0, -1.0, -1.0),
-                        new Vertex(1.0, 1.0, 1.0),
-                        new Vertex(-1.0, 1.0, 1.0),
-                        new Vertex(-1.0, -1.0, 1.0),
-                        new Vertex(1.0, -1.0, 1.0))
+                Arrays.asList(new Vertex(1.0, 1.0, -1.0), //0
+                        new Vertex(-1.0, 1.0, -1.0), //1
+                        new Vertex(-1.0, -1.0, -1.0), //2
+                        new Vertex(1.0, -1.0, -1.0), //3
+                        new Vertex(1.0, 1.0, 1.0), //4
+                        new Vertex(-1.0, 1.0, 1.0), //5
+                        new Vertex(-1.0, -1.0, 1.0), //6
+                        new Vertex(1.0, -1.0, 1.0)) //7
         );
         mModel.getFaces().addAll(
                 Arrays.asList(
-                        Arrays.asList(0, 1, 2, 3), //Front/rear
-                        Arrays.asList(4, 5, 6, 7),
-                        Arrays.asList(0, 1, 5, 4), //Top/bottom
-                        Arrays.asList(3, 2, 6, 7),
-                        Arrays.asList(1, 2, 6, 5), //Left/right
-                        Arrays.asList(0, 3, 7, 4)
+                        Arrays.asList(0, 1, 2, 3), //Front/rear //+
+                        Arrays.asList(7, 6, 5, 4), //+
+                        Arrays.asList(4, 5, 1, 0), //Top/bottom //+
+                        Arrays.asList(2, 6, 7, 3), //+
+                        Arrays.asList(1, 5, 6, 2), //Left/right //+
+                        Arrays.asList(0, 3, 7, 4)  //+
                 )
         );
     }
