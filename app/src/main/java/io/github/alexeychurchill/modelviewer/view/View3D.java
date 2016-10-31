@@ -42,7 +42,7 @@ public class View3D extends View {
         mPaint.setColor(Color.BLACK);
     }
 
-    public Renderer getProjector() {
+    public Renderer getRenderer() {
         return projector;
     }
 

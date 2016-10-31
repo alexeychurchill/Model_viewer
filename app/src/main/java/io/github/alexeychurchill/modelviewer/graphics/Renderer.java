@@ -19,6 +19,9 @@ import io.github.alexeychurchill.modelviewer.graphics.shapes.Vertex;
 public class Renderer {
     public static final double DEFAULT_C = -500.0;
     private double c = DEFAULT_C;
+    private int lastVisibleFaces = 0;
+    private int lastTotalFaces = 0;
+    private boolean backfaceCullingEnabled = false;
 
     public double getC() {
         return c;
@@ -67,12 +70,33 @@ public class Renderer {
 
     public List<Polygon2d> projectModel(Model3d model3d) {
         List<Polygon2d> polygons2d = new LinkedList<>();
+        lastTotalFaces = model3d.getPolygons().size();
         for (Polygon3d polygon3d : model3d.getPolygons()) {
-            if (polygonVisible(polygon3d)) {
+            if (backfaceCullingEnabled) {
+                if (polygonVisible(polygon3d)) {
+                    polygons2d.add(projectPolygon(polygon3d));
+                }
+            } else {
                 polygons2d.add(projectPolygon(polygon3d));
             }
         }
-        Log.d("zzz", "Visible polygons: " + polygons2d.size());
+        lastVisibleFaces = polygons2d.size();
         return polygons2d;
+    }
+
+    public int getLastVisibleFaces() {
+        return lastVisibleFaces;
+    }
+
+    public int getLastTotalFaces() {
+        return lastTotalFaces;
+    }
+
+    public boolean isBackfaceCullingEnabled() {
+        return backfaceCullingEnabled;
+    }
+
+    public void setBackfaceCullingEnabled(boolean backfaceCullingEnabled) {
+        this.backfaceCullingEnabled = backfaceCullingEnabled;
     }
 }

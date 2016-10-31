@@ -5,9 +5,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -41,10 +39,8 @@ public class MainActivity extends AppCompatActivity {
         mViewport = ((View3D) findViewById(R.id.v3dView));
         //Build demo model
         buildModel();
-        //...
         if (mViewport != null) {
             mViewport.setModel(mModel);
-            //updateView();
         }
     }
 
@@ -183,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         //TODO: Add showing of visible/total faces
-        //TODO: On/off BFC
+        mViewport.getRenderer().setBackfaceCullingEnabled(bfcEnabled);
         mViewport.invalidate();
     }
 
