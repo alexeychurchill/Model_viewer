@@ -53,7 +53,8 @@
             android:id="@+id/svHelp"
             android:background="@color/colorHelp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:visibility="gone">
             <include layout="@layout/part_activity_main_manual"/>
         </ScrollView>
     </FrameLayout>

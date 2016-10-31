@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private View3D mViewport;
     private TextView tvTotalFaces;
     private TextView tvVisibleFaces;
+    private ScrollView svHelp;
 
     private boolean bfcEnabled = false; //Back-face culling
     private boolean hmEnabled = false; //Help mode
@@ -45,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
         mViewport = ((View3D) findViewById(R.id.v3dView));
         tvTotalFaces = ((TextView) findViewById(R.id.tvFacesTotal));
         tvVisibleFaces = ((TextView) findViewById(R.id.tvFacesVisible));
+        svHelp = ((ScrollView) findViewById(R.id.svHelp));
         //Build demo model
         buildModel();
         if (mViewport != null) {
@@ -58,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         bfcEnabled = sp.getBoolean(AppPrefsActivity.PREF_BFC_ENABLED, bfcEnabled);
         hmEnabled = sp.getBoolean(AppPrefsActivity.PREF_HM_ENABLED, hmEnabled);
+        svHelp.setVisibility((hmEnabled) ? View.VISIBLE : View.GONE);
         updateView();
     }
 
