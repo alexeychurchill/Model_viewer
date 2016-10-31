@@ -42,7 +42,6 @@ public class OpenFileActivity extends AppCompatActivity implements ListView.OnIt
     }
 
     private void initFile() {
-        Log.d("zzz", String.valueOf(Environment.getExternalStorageDirectory()) + " -> " + Environment.getExternalStorageState());
         File rootFile = new File(Environment.getExternalStorageDirectory().getPath());
         mCurrentDir = rootFile;
         mFileList.add(null);

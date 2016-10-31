@@ -19,4 +19,6 @@
     <string name="text_enable_back_face_culling">Back-face culling</string>
     <string name="text_help_mode">Help mode</string>
     <string name="menu_text_settings">Settings</string>
+    <string name="text_total_faces">Total faces:</string>
+    <string name="text_visible_faces">Visible faces:</string>
 </resources>

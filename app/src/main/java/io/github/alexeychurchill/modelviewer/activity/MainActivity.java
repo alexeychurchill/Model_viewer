@@ -5,10 +5,14 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.io.File;
 import java.util.Arrays;
@@ -27,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
 
     private Model3d mModel = new Model3d();
     private View3D mViewport;
+    private TextView tvTotalFaces;
+    private TextView tvVisibleFaces;
 
     private boolean bfcEnabled = false; //Back-face culling
     private boolean hmEnabled = false; //Help mode
@@ -37,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mViewport = ((View3D) findViewById(R.id.v3dView));
+        tvTotalFaces = ((TextView) findViewById(R.id.tvFacesTotal));
+        tvVisibleFaces = ((TextView) findViewById(R.id.tvFacesVisible));
         //Build demo model
         buildModel();
         if (mViewport != null) {
@@ -174,11 +182,16 @@ public class MainActivity extends AppCompatActivity {
         updateView();
     }
 
+    public void v3dOnClick(View view) {
+        //Faces indication
+        tvTotalFaces.setText(String.valueOf(mViewport.getRenderer().getLastTotalFaces()));
+        tvVisibleFaces.setText(String.valueOf(mViewport.getRenderer().getLastVisibleFaces()));
+    }
+
     private void updateView() {
         if (mViewport == null) {
             return;
         }
-        //TODO: Add showing of visible/total faces
         mViewport.getRenderer().setBackfaceCullingEnabled(bfcEnabled);
         mViewport.invalidate();
     }

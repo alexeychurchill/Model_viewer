@@ -4,11 +4,53 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/activity_padding">
-    <io.github.alexeychurchill.modelviewer.view.View3D
-        android:id="@+id/v3dView"
-        android:layout_width="match_parent"
+    <FrameLayout
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1">
+        <!-- 3D Model viewport -->
+        <io.github.alexeychurchill.modelviewer.view.View3D
+            android:id="@+id/v3dView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:onClick="v3dOnClick"/>
+        <!-- Faces info -->
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <!-- Total faces -->
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_total_faces"/>
+                <TextView
+                    android:id="@+id/tvFacesTotal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <!-- Visible faces -->
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_visible_faces"/>
+                <TextView
+                    android:id="@+id/tvFacesVisible"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+        <!-- Help mode -->
+    </FrameLayout>
+
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
