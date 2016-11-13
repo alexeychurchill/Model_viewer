@@ -1,6 +1,10 @@
 package io.github.alexeychurchill.modelviewer.graphics;
 
-import android.util.Log;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Path;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -17,11 +21,15 @@ import io.github.alexeychurchill.modelviewer.graphics.shapes.Vertex;
  */
 
 public class Renderer {
+    //3D properties
     public static final double DEFAULT_C = -500.0;
     private double c = DEFAULT_C;
     private int lastVisibleFaces = 0;
     private int lastTotalFaces = 0;
     private boolean backfaceCullingEnabled = false;
+    //Rendering
+    private ScreenConverter screenConverter = new ScreenConverter();
+    private Paint renderPaint = new Paint();
 
     public double getC() {
         return c;
@@ -53,6 +61,7 @@ public class Renderer {
         double yv = -polygon3d.getPointList().get(0).getY();
         double zv = c-polygon3d.getPointList().get(0).getZ();
 
+        // TODO: 13.11.2016 Normal vector calculation: here -> Polygon3D
         double xa = polygon3d.getPointList().get(1).getX() - polygon3d.getPointList().get(0).getX();
         double ya = polygon3d.getPointList().get(1).getY() - polygon3d.getPointList().get(0).getY();
         double za = polygon3d.getPointList().get(1).getZ() - polygon3d.getPointList().get(0).getZ();
@@ -70,9 +79,10 @@ public class Renderer {
 
     public List<Polygon2d> projectModel(Model3d model3d) {
         List<Polygon2d> polygons2d = new LinkedList<>();
+        // FIXME: 13.11.2016 Implement callback, which can tell how many total faces and visible faces
         lastTotalFaces = model3d.getPolygons().size();
         for (Polygon3d polygon3d : model3d.getPolygons()) {
-            if (backfaceCullingEnabled) {
+            if (backfaceCullingEnabled) { // TODO: 13.11.2016 Implement method, which will perform back face culling
                 if (polygonVisible(polygon3d)) {
                     polygons2d.add(projectPolygon(polygon3d));
                 }
@@ -98,5 +108,56 @@ public class Renderer {
 
     public void setBackfaceCullingEnabled(boolean backfaceCullingEnabled) {
         this.backfaceCullingEnabled = backfaceCullingEnabled;
+    }
+
+    // TODO: 13.11.2016 Render bitmap here
+    public Bitmap renderToBitmap(Model3d model, int width, int height, int backgroundColor) {
+        Bitmap renderedBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas renderCanvas = new Canvas(renderedBitmap);
+
+        screenConverter.setScreenCenterX(width / 2);
+        screenConverter.setScreenCenterY(height / 2);
+        renderPaint.setColor(Color.BLUE);
+        renderPaint.setStyle(Paint.Style.STROKE);
+
+        renderCanvas.drawColor(backgroundColor);
+        renderModelToCanvas(model, renderCanvas);
+
+        return renderedBitmap;
+    }
+
+    private void renderModelToCanvas(Model3d model, Canvas renderCanvas) {
+        if ((model == null) || (renderCanvas == null)) {
+            return;
+        }
+        List<Polygon2d> polygons2d = projectModel(model);
+        Path polygonPath = new Path();
+        for (Polygon2d polygon : polygons2d) {
+            polygonPath = getPathFromPolygon(polygonPath, polygon);
+            renderCanvas.drawPath(polygonPath, renderPaint);
+        }
+    }
+
+    private Path getPathFromPolygon(Path pathToReuse, Polygon2d polygon) {
+        Path path = pathToReuse;
+        if (path == null) {
+            path = new Path();
+        }
+
+        int xScreen = screenConverter.toScreenX(polygon.getPointList().get(0).getX());
+        int yScreen = screenConverter.toScreenY(polygon.getPointList().get(0).getY());
+
+        path.reset();
+        path.moveTo(xScreen, yScreen);
+
+        for (int i = 1; i < polygon.getPointList().size(); i++) {
+            xScreen = screenConverter.toScreenX(polygon.getPointList().get(i).getX());
+            yScreen = screenConverter.toScreenY(polygon.getPointList().get(i).getY());
+            path.lineTo(xScreen, yScreen);
+        }
+
+        path.close();
+
+        return path;
     }
 }

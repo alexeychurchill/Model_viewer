@@ -20,4 +20,6 @@ public class Polygon3d {
     public List<Vertex> getPointList() {
         return pointList;
     }
+
+    // TODO: 13.11.2016 Add normal vector calculation
 }

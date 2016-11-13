@@ -222,4 +222,6 @@ public class MainActivity extends AppCompatActivity {
                 )
         );
     }
+
+    // TODO: 13.11.2016 Implement displaying visible and total faces by callback 
 }
