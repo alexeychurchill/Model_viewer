@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,18 +12,17 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
 import java.io.File;
 import java.util.Arrays;
 
 import io.github.alexeychurchill.modelviewer.R;
 import io.github.alexeychurchill.modelviewer.filebrowser.OpenFileActivity;
+import io.github.alexeychurchill.modelviewer.graphics.Renderer;
 import io.github.alexeychurchill.modelviewer.view.View3D;
 import io.github.alexeychurchill.modelviewer.graphics.shapes.Model3d;
 import io.github.alexeychurchill.modelviewer.graphics.shapes.Vertex;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements Renderer.OnRenderFinishedListener {
     private static final int RQ_CALL_OPEN_FILE = 1;
     private double mMoveDelta = 0.5;
     private double mRotateDelta = 5.0;
@@ -48,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
         tvTotalFaces = ((TextView) findViewById(R.id.tvFacesTotal));
         tvVisibleFaces = ((TextView) findViewById(R.id.tvFacesVisible));
         svHelp = ((ScrollView) findViewById(R.id.svHelp));
+        //Setting this as on render finished listener
+        mViewport.getRenderer().setOnRenderFinishedListener(this);
         //Build demo model
         buildModel();
         if (mViewport != null) {
@@ -186,12 +186,6 @@ public class MainActivity extends AppCompatActivity {
         updateView();
     }
 
-    public void v3dOnClick(View view) {
-        //Faces indication
-        tvTotalFaces.setText(String.valueOf(mViewport.getRenderer().getLastTotalFaces()));
-        tvVisibleFaces.setText(String.valueOf(mViewport.getRenderer().getLastVisibleFaces()));
-    }
-
     private void updateView() {
         if (mViewport == null) {
             return;
@@ -223,5 +217,9 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 
-    // TODO: 13.11.2016 Implement displaying visible and total faces by callback 
+    @Override
+    public void onRenderFinished() {
+        tvTotalFaces.setText(String.valueOf(mViewport.getRenderer().getLastTotalFaces()));
+        tvVisibleFaces.setText(String.valueOf(mViewport.getRenderer().getLastVisibleFaces()));
+    }
 }

@@ -1,5 +1,6 @@
 package io.github.alexeychurchill.modelviewer.graphics;
 
+import android.app.Application;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -32,6 +33,7 @@ public class Renderer {
     //Rendering
     private ScreenConverter screenConverter = new ScreenConverter();
     private Paint renderPaint = new Paint();
+    private OnRenderFinishedListener listener;
 
     public double getC() {
         return c;
@@ -39,6 +41,10 @@ public class Renderer {
 
     public void setC(double c) {
         this.c = c;
+    }
+
+    public void setOnRenderFinishedListener(OnRenderFinishedListener listener) {
+        this.listener = listener;
     }
 
     public Point project(Vertex vertex) {
@@ -70,7 +76,6 @@ public class Renderer {
     }
 
     public List<Polygon2d> projectModel(Model3d model3d) {
-        // FIXME: 13.11.2016 Implement callback, which can tell how many total faces and visible faces
         List<Polygon2d> polygons2d = new LinkedList<>();
         List<Polygon3d> modelPolygons = model3d.getPolygons();
         lastTotalFaces = modelPolygons.size();
@@ -113,6 +118,10 @@ public class Renderer {
 
         renderCanvas.drawColor(backgroundColor);
         renderModelToCanvas(model, renderCanvas);
+
+        if (listener != null) {
+            listener.onRenderFinished();
+        }
 
         return renderedBitmap;
     }
@@ -165,5 +174,9 @@ public class Renderer {
             }
         }
         return removedCount;
+    }
+
+    public interface OnRenderFinishedListener {
+        void onRenderFinished();
     }
 }

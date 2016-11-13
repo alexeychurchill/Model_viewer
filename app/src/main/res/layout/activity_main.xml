@@ -12,8 +12,7 @@
         <io.github.alexeychurchill.modelviewer.view.View3D
             android:id="@+id/v3dView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:onClick="v3dOnClick"/>
+            android:layout_height="match_parent"/>
         <!-- Faces info -->
         <LinearLayout
             android:orientation="vertical"
