@@ -10,6 +10,7 @@ import android.util.Log;
 import java.util.LinkedList;
 import java.util.List;
 
+import io.github.alexeychurchill.modelviewer.graphics.math.Vector;
 import io.github.alexeychurchill.modelviewer.graphics.shapes.Model3d;
 import io.github.alexeychurchill.modelviewer.graphics.shapes.Point;
 import io.github.alexeychurchill.modelviewer.graphics.shapes.Polygon2d;
@@ -61,21 +62,11 @@ public class Renderer {
         double xv = -polygon3d.getPointList().get(0).getX();
         double yv = -polygon3d.getPointList().get(0).getY();
         double zv = c-polygon3d.getPointList().get(0).getZ();
+        Vector viewerPointVector = new Vector(xv, yv, zv);
 
-        // TODO: 13.11.2016 Normal vector calculation: here -> Polygon3D
-        double xa = polygon3d.getPointList().get(1).getX() - polygon3d.getPointList().get(0).getX();
-        double ya = polygon3d.getPointList().get(1).getY() - polygon3d.getPointList().get(0).getY();
-        double za = polygon3d.getPointList().get(1).getZ() - polygon3d.getPointList().get(0).getZ();
+        Vector normalVector = polygon3d.normalVector();
 
-        double xb = polygon3d.getPointList().get(2).getX() - polygon3d.getPointList().get(0).getX();
-        double yb = polygon3d.getPointList().get(2).getY() - polygon3d.getPointList().get(0).getY();
-        double zb = polygon3d.getPointList().get(2).getZ() - polygon3d.getPointList().get(0).getZ();
-
-        double xn = ya * zb - yb * za;
-        double yn = za * xb - zb * xa;
-        double zn = xa * yb - xb * ya;
-
-        return (xv * xn + yv * yn + zv * zn) < 0.0;
+        return viewerPointVector.dotProduct(normalVector) < 0.0;
     }
 
     public List<Polygon2d> projectModel(Model3d model3d) {
